@@ -53,3 +53,16 @@ compile_commands.json
 CTestTestfile.cmake
 _deps
 out/
+
+# Moamen's setups
+.vscode/
+*.tlog
+*.log
+x64/
+build/
+VKRendererProto.dir/
+ALL_BUILD.vcxproj*
+VKRendererProto.sln*
+VKRendererProto.vcxproj*
+ZERO_CHECK.vcxproj*
+.editorconfig
