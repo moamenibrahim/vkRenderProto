@@ -10,10 +10,11 @@
 #define GLFW_INCLUDE_VULKAN
 
 #include "Validator.cpp"
+#include "Utils.cpp"
+#include "Common.h"
 
 class HelloTriangleApplication {
 public:
-    GLFWwindow* window;
     const uint32_t WIDTH = 800;
     const uint32_t HEIGHT = 600;
     const std::vector<char*> validationLayersRequested = 
@@ -27,8 +28,10 @@ public:
     }
 
 private:
+    GLFWwindow* window;
     VkInstance instance;
     VkResult result;
+    VkDebugUtilsMessengerEXT debugMessenger;
 
     void initWindow() {
         glfwInit();
@@ -52,41 +55,48 @@ private:
         appInfo.apiVersion = VK_API_VERSION_1_0;
 
         VkInstanceCreateInfo createInfo{};
+        createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
+        createInfo.pApplicationInfo = &appInfo;
+        
+        uint32_t extensionCount = 0;
+        vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount,
+            nullptr);
+
+        std::vector<VkExtensionProperties> extensions(extensionCount);
+        vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount,
+            extensions.data());
+        std::cout << extensionCount << " extensions supported:\n";
+        for (const auto& extension : extensions) {
+            std::cout << '\t' << extension.extensionName << '\n';
+        }
+
+        auto glfwExtensions = Validator::getRequiredExtensions();
+        createInfo.enabledExtensionCount = static_cast<uint32_t>(glfwExtensions.size());
+        createInfo.ppEnabledExtensionNames = glfwExtensions.data();
+
+        VkDebugUtilsMessengerCreateInfoEXT debugCreateInfo;
         if (enableValidationLayers) {
             createInfo.enabledLayerCount = 
                 static_cast<uint32_t>(validationLayersRequested.size());
             createInfo.ppEnabledLayerNames = validationLayersRequested.data();
+
+            Utils::populateDebugMessengerCreateInfo(debugCreateInfo);
+            createInfo.pNext = (VkDebugUtilsMessengerCreateInfoEXT*)
+                &debugCreateInfo;
         }
         else {
             createInfo.enabledLayerCount = 0;
+            createInfo.pNext = nullptr;
         }
-
-        createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
-        createInfo.pApplicationInfo = &appInfo;
-
-        uint32_t glfwExtensionCount = 0;
-        vkEnumerateInstanceExtensionProperties(nullptr, &glfwExtensionCount,
-            nullptr);
-        std::cout << glfwExtensionCount << " extensions supported\n";
-
-        std::vector<VkExtensionProperties> glfwExtensions(glfwExtensionCount);
-        vkEnumerateInstanceExtensionProperties(nullptr, &glfwExtensionCount,
-            glfwExtensions.data());
-
-        createInfo.enabledExtensionCount = glfwExtensionCount;
-        createInfo.ppEnabledExtensionNames = 
-            glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
 
         result = vkCreateInstance(&createInfo, nullptr, &instance);
         if (result != VK_SUCCESS)
         {
-            Validator::handleInstanceCreateFailure(result);
+            Validator::handleCreateInstanceFailure(result);
             throw std::runtime_error("failed to create instance!");
         }
 
-        if (&createInfo == nullptr || instance == nullptr) {
-            std::cout << "Null pointer passed to required parameter!";
-        }
+        Utils::setupDebugMessenger(instance, debugMessenger);
     }
 
     void mainLoop() {
@@ -96,6 +106,11 @@ private:
     }
 
     void cleanup() {
+        if (enableValidationLayers) {
+            Utils::DestroyDebugUtilsMessengerEXT(instance, 
+                debugMessenger, nullptr);
+        }
+
         vkDestroyInstance(instance, nullptr);
         glfwDestroyWindow(window);
         glfwTerminate();

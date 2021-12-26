@@ -1,15 +1,10 @@
 #include <vector>
 #include <iostream>
 #include <vulkan.h>
-#include <map>
 
+#include "./include/GLFW/glfw3.h"
 #include "vk_enum_string_helper.h"
-
-#ifdef NDEBUG
-const bool enableValidationLayers = false;
-#else
-const bool enableValidationLayers = true;
-#endif
+#include "Common.h"
 
 class Validator {
 public:
@@ -36,8 +31,22 @@ public:
 		return true;
 	}
 
-	static void handleInstanceCreateFailure(VkResult result) {
-		
-		std::cout << "Error on creating instance: " << string_VkResult(result) << "\n";
+	static void handleCreateInstanceFailure(VkResult result) {
+		std::cout << "Error on creating instance: " << 
+			string_VkResult(result) << "\n";
+	}
+
+	static std::vector<const char*> getRequiredExtensions() {
+		uint32_t glfwExtensionCount = 0;
+		const char** glfwExtensions;
+		glfwExtensions =
+			glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
+		std::vector<const char*> extensions(glfwExtensions,
+			glfwExtensions + glfwExtensionCount);
+			
+		if (enableValidationLayers) {
+			extensions.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
+		}
+		return extensions;
 	}
 };
