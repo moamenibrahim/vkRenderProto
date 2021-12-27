@@ -11,6 +11,6 @@
 namespace Validator 
 {
 	bool checkValidationLayerSupport(const std::vector<char*>& validationLayers);
-	void handleCreateInstanceFailure(const VkResult &result);
+	void handleCreateInstanceFailure(const VkResult result);
 	std::vector<const char*> getRequiredExtensions();
 };

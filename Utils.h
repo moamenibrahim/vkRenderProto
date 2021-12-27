@@ -2,6 +2,7 @@
 #include <vector>
 #include <iostream>
 #include <vulkan.h>
+#include <optional>
 #include "EngineCommon.h"
 
 namespace Utils {
