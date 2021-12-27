@@ -10,7 +10,8 @@
 #include "./include/glm/vec4.hpp"
 #include "./include/glm/mat4x4.hpp"
 #define GLFW_INCLUDE_VULKAN
-
+#include <numeric>
+#include <set>
 #include "Validator.h"
 #include "Utils.h"
 #include "EngineCommon.h"

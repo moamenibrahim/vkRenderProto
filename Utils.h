@@ -37,9 +37,9 @@ namespace Utils {
 	void populateDebugMessengerCreateInfo(
 		VkDebugUtilsMessengerCreateInfoEXT& createInfo);
 
-	bool isDeviceSuitable(const VkPhysicalDevice &device, VkSurfaceKHR surface);
+	bool isDeviceSuitable(const VkPhysicalDevice &device, const VkSurfaceKHR &surface);
 
 	int rateDeviceSuitability(const VkPhysicalDevice &device);
 
-	QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device, VkSurfaceKHR surface);
+	QueueFamilyIndices findQueueFamilies(const VkPhysicalDevice &device, const VkSurfaceKHR &surface);
 };

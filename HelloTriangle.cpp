@@ -1,7 +1,5 @@
 #include "HelloTriangle.h"
-#include <numeric>
-#include <iostream>
-#include <set>
+ 
 
 class HelloTriangleApplication 
 {
@@ -162,13 +160,13 @@ private:
 
         float queuePriority = 1.0f;
         for (uint32_t queueFamily : uniqueQueueFamilies) {
-            VkDeviceQueueCreateInfo queueCreateInfo{};
+            VkDeviceQueueCreateInfo& queueCreateInfo = queueCreateInfos.emplace_back();
             queueCreateInfo.sType =
                 VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
             queueCreateInfo.queueFamilyIndex = queueFamily;
             queueCreateInfo.queueCount = 1;
             queueCreateInfo.pQueuePriorities = &queuePriority;
-            queueCreateInfos.push_back(queueCreateInfo);
+            //queueCreateInfos.push_back(queueCreateInfo);
         }
 
         VkPhysicalDeviceFeatures deviceFeatures{};

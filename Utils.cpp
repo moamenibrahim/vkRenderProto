@@ -69,7 +69,7 @@ namespace Utils
 		createInfo.pfnUserCallback = (PFN_vkDebugUtilsMessengerCallbackEXT)debugCallback;
 	}
 
-	bool isDeviceSuitable(const VkPhysicalDevice &device, VkSurfaceKHR surface) {
+	bool isDeviceSuitable(const VkPhysicalDevice &device, const VkSurfaceKHR &surface) {
 		QueueFamilyIndices indices = Utils::findQueueFamilies(device, surface);
 		return indices.isComplete();
 	}
@@ -100,7 +100,7 @@ namespace Utils
 		return score;
 	}
 
-	QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device, VkSurfaceKHR surface) {
+	QueueFamilyIndices findQueueFamilies(const VkPhysicalDevice &device, const VkSurfaceKHR &surface) {
 		QueueFamilyIndices indices;
 		// Logic to find queue family indices to populate struct with
 
