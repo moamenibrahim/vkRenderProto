@@ -1,14 +1,16 @@
 #include "HelloTriangle.h"
-#include <algorithm>
+#include <numeric>
 
-class HelloTriangleApplication {
+class HelloTriangleApplication 
+{
 public:
     const uint32_t WIDTH = 800;
     const uint32_t HEIGHT = 600;
-    const std::vector<std::string> validationLayersRequested = 
+    const std::vector<char *> validationLayersRequested = 
         { "VK_LAYER_KHRONOS_validation" };
 
-    void run() {
+    void run() 
+    {
         initWindow();
         createInstance();
         pickPhysicalDevice();
@@ -22,13 +24,15 @@ private:
     VkResult result;
     VkDebugUtilsMessengerEXT debugMessenger;
 
-    void initWindow() {
+    void initWindow() 
+    {
         glfwInit();
         glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
         window = glfwCreateWindow(WIDTH, HEIGHT, "Vulkan", nullptr, nullptr);
     }
 
-    void createInstance() {
+    void createInstance() 
+    {
         if (enableValidationLayers && 
             !Validator::checkValidationLayerSupport(validationLayersRequested)) {
             throw std::runtime_error(
@@ -68,16 +72,14 @@ private:
             createInfo.enabledLayerCount = 
                 static_cast<uint32_t>(validationLayersRequested.size());
 
-            std::vector<const char*> layer_names(validationLayersRequested.size());
-            std::transform(validationLayersRequested.begin(), validationLayersRequested.end(), layer_names.begin(), [](const std::string& s)
-                { return s.c_str(); });
-            createInfo.ppEnabledLayerNames = layer_names.data();
+            createInfo.ppEnabledLayerNames = validationLayersRequested.data();
 
             Utils::populateDebugMessengerCreateInfo(debugCreateInfo);
             createInfo.pNext = (VkDebugUtilsMessengerCreateInfoEXT*)
                 &debugCreateInfo;
         }
-        else {
+        else 
+        {
             createInfo.enabledLayerCount = 0;
             createInfo.pNext = nullptr;
         }
@@ -92,10 +94,12 @@ private:
         Utils::setupDebugMessenger(instance, debugMessenger);
     }
 
-    void pickPhysicalDevice() {
+    void pickPhysicalDevice() 
+    {
         uint32_t deviceCount = 0;
         vkEnumeratePhysicalDevices(instance, &deviceCount, nullptr);
-        if (deviceCount == 0) {
+        if (deviceCount == 0) 
+        {
             throw std::runtime_error("failed to find GPUs with Vulkan support!");
         }
 
@@ -103,40 +107,48 @@ private:
         vkEnumeratePhysicalDevices(instance, &deviceCount, devices.data());
 
         VkPhysicalDevice physicalDevice{};
-        for (const auto& device : devices) {
+        for (const auto& device : devices) 
+        {
             if (Utils::isDeviceSuitable(device)) {
                 physicalDevice = device;
                 break;
             }
         }
 
-        if (physicalDevice == VK_NULL_HANDLE) {
+        if (physicalDevice == VK_NULL_HANDLE) 
+        {
             throw std::runtime_error("failed to find a suitable GPU!");
         }
 
         // Use an ordered map to automatically sort candidates by score
         std::multimap<int, VkPhysicalDevice> candidates;
         
-        for (const auto& device : devices) {
+        for (const auto& device : devices) 
+        {
             int score = Utils::rateDeviceSuitability(device);
             candidates.insert(std::make_pair(score, device));
         }
 
-        if (candidates.rbegin()->first > 0) {
+        if (candidates.rbegin()->first > 0) 
+        {
             physicalDevice = candidates.rbegin()->second;
         }
-        else {
+        else 
+        {
             throw std::runtime_error("failed to find a suitable GPU!");
         }
     }
 
-    void mainLoop() {
-        while (!glfwWindowShouldClose(window)) {
+    void mainLoop() 
+    {
+        while (!glfwWindowShouldClose(window)) 
+        {
             glfwPollEvents();
         }
     }
 
-    void cleanup() {
+    void cleanup() 
+    {
         VkPhysicalDevice physicalDevice = VK_NULL_HANDLE;
 
         if (enableValidationLayers) {

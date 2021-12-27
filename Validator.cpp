@@ -1,7 +1,7 @@
 #include "Validator.h"
 
 namespace Validator {
-	bool checkValidationLayerSupport(const std::vector<std::string>& validationLayers) {
+	bool checkValidationLayerSupport(const std::vector<char*>& validationLayers) {
 		uint32_t layerCount;
 		vkEnumerateInstanceLayerProperties(&layerCount, nullptr);
 
@@ -12,7 +12,7 @@ namespace Validator {
 		for (auto& layerName : validationLayers) {
 			bool layerFound = false;
 			for (const auto& layerProperties : availableLayers) {
-				if (strcmp(layerName.c_str(), layerProperties.layerName) == 0) {
+				if (strcmp(layerName, layerProperties.layerName) == 0) {
 					layerFound = true;
 					break;
 				}
