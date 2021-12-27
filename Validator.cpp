@@ -8,7 +8,7 @@
 
 class Validator {
 public:
-	static bool checkValidationLayerSupport(std::vector<char*> &validationLayers) {
+	static bool checkValidationLayerSupport(std::vector<char*> validationLayers) {
 		uint32_t layerCount;
 		vkEnumerateInstanceLayerProperties(&layerCount, nullptr);
 
