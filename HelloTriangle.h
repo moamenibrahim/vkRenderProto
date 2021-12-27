@@ -11,6 +11,7 @@
 #include "./include/glm/mat4x4.hpp"
 #define GLFW_INCLUDE_VULKAN
 
-#include "Validator.cpp"
+#include "Validator.h"
 #include "Utils.h"
 #include "Common.h"
+//#include "include/spdlog/spdlog.h"
