@@ -1,11 +1,12 @@
 #include "HelloTriangle.h"
 #include <algorithm>
+#include <iostream>
 
 class HelloTriangleApplication {
 public:
     const uint32_t WIDTH = 800;
     const uint32_t HEIGHT = 600;
-    const std::vector<std::string> validationLayersRequested = 
+    const std::vector<char*> validationLayersRequested =
         { "VK_LAYER_KHRONOS_validation" };
 
     void run() {
@@ -68,10 +69,7 @@ private:
             createInfo.enabledLayerCount = 
                 static_cast<uint32_t>(validationLayersRequested.size());
 
-            std::vector<const char*> layer_names(validationLayersRequested.size());
-            std::transform(validationLayersRequested.begin(), validationLayersRequested.end(), layer_names.begin(), [](const std::string& s)
-                { return s.c_str(); });
-            createInfo.ppEnabledLayerNames = layer_names.data();
+            createInfo.ppEnabledLayerNames = validationLayersRequested.data();
 
             Utils::populateDebugMessengerCreateInfo(debugCreateInfo);
             createInfo.pNext = (VkDebugUtilsMessengerCreateInfoEXT*)
