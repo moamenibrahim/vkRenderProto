@@ -5,6 +5,14 @@
 #include "EngineCommon.h"
 
 namespace Utils {
+	struct QueueFamilyIndices {
+		std::optional<uint32_t> graphicsFamily;
+		
+		bool isComplete() {
+			return graphicsFamily.has_value();
+		}
+	};
+
 	VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(
 		VkDebugUtilsMessageSeverityFlagBitsEXT &messageSeverity,
 		VkDebugUtilsMessageTypeFlagsEXT &messageType,
@@ -29,4 +37,6 @@ namespace Utils {
 	bool isDeviceSuitable(const VkPhysicalDevice &device);
 
 	int rateDeviceSuitability(const VkPhysicalDevice &device);
+
+	QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device);
 };

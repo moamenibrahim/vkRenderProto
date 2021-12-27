@@ -9,7 +9,7 @@ namespace Validator {
 		vkEnumerateInstanceLayerProperties(&layerCount,
 			availableLayers.data());
 
-		for (auto& layerName : validationLayers) {
+		for (const char* layerName : validationLayers) {
 			bool layerFound = false;
 			for (const auto& layerProperties : availableLayers) {
 				if (strcmp(layerName, layerProperties.layerName) == 0) {
@@ -24,7 +24,7 @@ namespace Validator {
 		return true;
 	}
 
-	void handleCreateInstanceFailure(const VkResult &result) {
+	void handleCreateInstanceFailure(const VkResult result) {
 		std::cout << "Error on creating instance: " <<
 			string_VkResult(result) << "\n";
 	}
