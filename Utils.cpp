@@ -53,8 +53,8 @@ public:
 		}
 	}
 
-	static void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT&
-		createInfo) {
+	static void populateDebugMessengerCreateInfo(
+		VkDebugUtilsMessengerCreateInfoEXT& createInfo) {
 		createInfo = {};
 		createInfo.sType =
 			VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
@@ -67,5 +67,35 @@ public:
 			VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT |
 			VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
 		createInfo.pfnUserCallback = debugCallback;
+	}
+
+	static bool isDeviceSuitable(VkPhysicalDevice device) {
+		return true;
+	}
+
+	static int rateDeviceSuitability(VkPhysicalDevice device) {
+		VkPhysicalDeviceProperties deviceProperties;
+		vkGetPhysicalDeviceProperties(device, &deviceProperties);
+
+		VkPhysicalDeviceFeatures deviceFeatures;
+		vkGetPhysicalDeviceFeatures(device, &deviceFeatures);
+
+		int score = 0;
+
+		// Discrete GPUs have a significant performance advantage
+		if (deviceProperties.deviceType ==
+			VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU) {
+			score += 1000;
+		}
+		
+		// Maximum possible size of textures affects graphics quality
+		score += deviceProperties.limits.maxImageDimension2D;
+		
+		// Application can't function without geometry shaders
+		if (!deviceFeatures.geometryShader) {
+			return 0;
+			
+		}
+		return score;
 	}
 };
