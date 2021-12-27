@@ -11,15 +11,15 @@ namespace Utils {
 		const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData,
 		void* pUserData);
 
-	void setupDebugMessenger(VkInstance &instance,
+	void setupDebugMessenger(const VkInstance &instance,
 		VkDebugUtilsMessengerEXT &debugMessenger);
 
-	VkResult CreateDebugUtilsMessengerEXT(VkInstance &instance,
+	VkResult CreateDebugUtilsMessengerEXT(const VkInstance &instance,
 		VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo,
 		const VkAllocationCallbacks* pAllocator, VkDebugUtilsMessengerEXT*
 		pDebugMessenger);
 		
-	void DestroyDebugUtilsMessengerEXT(VkInstance &instance,
+	void DestroyDebugUtilsMessengerEXT(const VkInstance &instance,
 		VkDebugUtilsMessengerEXT &debugMessenger, const
 		VkAllocationCallbacks* pAllocator);
 

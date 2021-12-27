@@ -13,7 +13,7 @@ namespace Utils
 		return VK_FALSE;
 	}
 
-	void setupDebugMessenger(VkInstance &instance,
+	void setupDebugMessenger(const VkInstance &instance,
 		VkDebugUtilsMessengerEXT &debugMessenger) {
 		if (!enableValidationLayers) return;
 
@@ -25,7 +25,7 @@ namespace Utils
 		}
 	}
 
-	VkResult CreateDebugUtilsMessengerEXT(VkInstance &instance,
+	VkResult CreateDebugUtilsMessengerEXT(const VkInstance &instance,
 		VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo,
 		const VkAllocationCallbacks* pAllocator, VkDebugUtilsMessengerEXT*
 		pDebugMessenger) {
@@ -39,7 +39,7 @@ namespace Utils
 			return VK_ERROR_EXTENSION_NOT_PRESENT;
 		}
 	}
-	void DestroyDebugUtilsMessengerEXT(VkInstance &instance,
+	void DestroyDebugUtilsMessengerEXT(const VkInstance &instance,
 		VkDebugUtilsMessengerEXT &debugMessenger, const
 		VkAllocationCallbacks* pAllocator) {
 		auto func = (PFN_vkDestroyDebugUtilsMessengerEXT)
