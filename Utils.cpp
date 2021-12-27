@@ -1,13 +1,11 @@
-#include <vector>
-#include <iostream>
-#include <vulkan.h>
-#include "Common.h"
+#include "Utils.h"
 
-class Utils {
-public:
-	static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(
-		VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
-		VkDebugUtilsMessageTypeFlagsEXT messageType,
+namespace Utils
+{
+
+	VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(
+		VkDebugUtilsMessageSeverityFlagBitsEXT &messageSeverity,
+		VkDebugUtilsMessageTypeFlagsEXT &messageType,
 		const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData,
 		void* pUserData) {
 		std::cerr << "validation layer: "
@@ -15,19 +13,19 @@ public:
 		return VK_FALSE;
 	}
 
-	static void setupDebugMessenger(VkInstance instance, 
-			VkDebugUtilsMessengerEXT debugMessenger) {
+	void setupDebugMessenger(VkInstance &instance,
+		VkDebugUtilsMessengerEXT &debugMessenger) {
 		if (!enableValidationLayers) return;
 
 		VkDebugUtilsMessengerCreateInfoEXT createInfo;
-		populateDebugMessengerCreateInfo(createInfo);
-		if (CreateDebugUtilsMessengerEXT(instance, &createInfo, nullptr,
+		Utils::populateDebugMessengerCreateInfo(createInfo);
+		if (Utils::CreateDebugUtilsMessengerEXT(instance, &createInfo, nullptr,
 			&debugMessenger) != VK_SUCCESS) {
 			throw std::runtime_error("failed to set up debug messenger!");
 		}
 	}
 
-	static VkResult CreateDebugUtilsMessengerEXT(VkInstance instance, 
+	VkResult CreateDebugUtilsMessengerEXT(VkInstance &instance,
 		VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo,
 		const VkAllocationCallbacks* pAllocator, VkDebugUtilsMessengerEXT*
 		pDebugMessenger) {
@@ -41,20 +39,22 @@ public:
 			return VK_ERROR_EXTENSION_NOT_PRESENT;
 		}
 	}
-
-	static void DestroyDebugUtilsMessengerEXT(VkInstance instance,
-		VkDebugUtilsMessengerEXT debugMessenger, const
+	void DestroyDebugUtilsMessengerEXT(VkInstance &instance,
+		VkDebugUtilsMessengerEXT &debugMessenger, const
 		VkAllocationCallbacks* pAllocator) {
 		auto func = (PFN_vkDestroyDebugUtilsMessengerEXT)
 			vkGetInstanceProcAddr(instance,
 				"vkDestroyDebugUtilsMessengerEXT");
-		if (func != nullptr) {
+		if (func != VK_NULL_HANDLE) 
+		{
+		
 			func(instance, debugMessenger, pAllocator);
 		}
 	}
 
-	static void populateDebugMessengerCreateInfo(
-		VkDebugUtilsMessengerCreateInfoEXT& createInfo) {
+	void populateDebugMessengerCreateInfo(
+		VkDebugUtilsMessengerCreateInfoEXT &createInfo) 
+	{
 		createInfo = {};
 		createInfo.sType =
 			VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
@@ -66,14 +66,14 @@ public:
 			VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT |
 			VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT |
 			VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
-		createInfo.pfnUserCallback = debugCallback;
+		createInfo.pfnUserCallback = (PFN_vkDebugUtilsMessengerCallbackEXT)debugCallback;
 	}
 
-	static bool isDeviceSuitable(VkPhysicalDevice device) {
+	bool isDeviceSuitable(const VkPhysicalDevice &device) {
 		return true;
 	}
 
-	static int rateDeviceSuitability(VkPhysicalDevice device) {
+	int rateDeviceSuitability(const VkPhysicalDevice &device) {
 		VkPhysicalDeviceProperties deviceProperties;
 		vkGetPhysicalDeviceProperties(device, &deviceProperties);
 
@@ -87,15 +87,15 @@ public:
 			VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU) {
 			score += 1000;
 		}
-		
+
 		// Maximum possible size of textures affects graphics quality
 		score += deviceProperties.limits.maxImageDimension2D;
-		
+
 		// Application can't function without geometry shaders
 		if (!deviceFeatures.geometryShader) {
 			return 0;
-			
+
 		}
 		return score;
 	}
-};
+}

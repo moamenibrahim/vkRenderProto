@@ -12,5 +12,5 @@
 #define GLFW_INCLUDE_VULKAN
 
 #include "Validator.cpp"
-#include "Utils.cpp"
+#include "Utils.h"
 #include "Common.h"
