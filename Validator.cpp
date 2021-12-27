@@ -26,7 +26,7 @@ namespace Validator {
 
 	void handleCreateInstanceFailure(const VkResult result) {
 		std::cout << "Error on creating instance: " <<
-			string_VkResult(result) << "\n";
+			string_VkResult(result) << std::endl;
 	}
 
 	std::vector<const char*> getRequiredExtensions() {

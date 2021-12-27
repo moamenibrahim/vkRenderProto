@@ -7,7 +7,8 @@ public:
     const uint32_t WIDTH = 800;
     const uint32_t HEIGHT = 600;
     const std::vector<char *> validationLayersRequested = 
-        { "VK_LAYER_KHRONOS_validation" };
+    { "VK_LAYER_KHRONOS_validation" };
+    const std::vector<const char*> deviceExtensions = { VK_KHR_SWAPCHAIN_EXTENSION_NAME };
 
     void run() 
     {
@@ -16,6 +17,8 @@ public:
         createWindowSurface();
         pickPhysicalDevice();
         createLogicalDevice();
+        createSwapChain();
+        
         mainLoop();
         cleanup();
     }
@@ -150,7 +153,8 @@ private:
         }
     }
 
-    void createLogicalDevice() {
+    void createLogicalDevice() 
+    {
         Utils::QueueFamilyIndices indices = 
             Utils::findQueueFamilies(physicalDevice, surface);
         
@@ -177,8 +181,9 @@ private:
         createInfo.pQueueCreateInfos = queueCreateInfos.data();
         createInfo.queueCreateInfoCount = 1;
         createInfo.pEnabledFeatures = &deviceFeatures;
+        createInfo.enabledExtensionCount = static_cast<uint32_t>(deviceExtensions.size());;
+        createInfo.ppEnabledExtensionNames = deviceExtensions.data();
 
-        createInfo.enabledExtensionCount = 0;
         if (enableValidationLayers) {
             createInfo.enabledLayerCount = static_cast<uint32_t>(validationLayersRequested.size());
             createInfo.ppEnabledLayerNames = validationLayersRequested.data();
@@ -192,7 +197,15 @@ private:
 
         // ensure to fetch the graphicsQueue
         vkGetDeviceQueue(device, indices.graphicsFamily.value(), 0, &graphicsQueue);
-        std::cout << "logical graphics address:" << &graphicsQueue << "\n";
+        std::cout << "logical graphics address:" << &graphicsQueue << std::endl;
+    }
+
+    void createSwapChain() 
+    {
+        Utils::SwapChainSupportDetails swapChainSupport = Utils::querySwapChainSupport(physicalDevice, surface);
+        VkSurfaceFormatKHR surfaceFormat = Utils::chooseSwapSurfaceFormat(swapChainSupport.formats);
+        VkPresentModeKHR presentMode = Utils::chooseSwapPresentMode(swapChainSupport.presentModes);
+        VkExtent2D extent = Utils::chooseSwapExtent(swapChainSupport.capabilities, WIDTH, HEIGHT);
     }
 
     void mainLoop() 

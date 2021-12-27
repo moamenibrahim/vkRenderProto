@@ -16,6 +16,12 @@ namespace Utils {
 		}
 	};
 
+	struct SwapChainSupportDetails {
+		VkSurfaceCapabilitiesKHR capabilities;
+		std::vector<VkSurfaceFormatKHR> formats;
+		std::vector<VkPresentModeKHR> presentModes;
+	};
+
 	VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(
 		VkDebugUtilsMessageSeverityFlagBitsEXT &messageSeverity,
 		VkDebugUtilsMessageTypeFlagsEXT &messageType,
@@ -42,4 +48,15 @@ namespace Utils {
 	int rateDeviceSuitability(const VkPhysicalDevice &device);
 
 	QueueFamilyIndices findQueueFamilies(const VkPhysicalDevice &device, const VkSurfaceKHR &surface);
+
+	bool checkDeviceExtensionSupport(VkPhysicalDevice device);
+
+	VkExtent2D chooseSwapExtent(const VkSurfaceCapabilitiesKHR&
+		capabilities, uint32_t WIDTH, uint32_t HEIGHT);
+
+	VkPresentModeKHR chooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes);
+
+	SwapChainSupportDetails querySwapChainSupport(VkPhysicalDevice device, VkSurfaceKHR surface);
+
+	VkSurfaceFormatKHR chooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats);
 };
