@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 #set(SPDLOG_DIR "${CMAKE_SOURCE_DIR}/include/spdlog/")
 #target_include_directories(VKRendererProto PUBLIC ${SPDLOG_DIR})
-add_executable(VKRendererProto src/main.cpp "src/Engine.cpp" "src/Utils.cpp" "src/Validator.cpp")
+add_executable(VKRendererProto src/main.cpp "src/Engine.cpp" "src/Utils.cpp" "src/Validator.cpp" "src/HelloTriangle.cpp")
 
 target_include_directories(VKRendererProto PUBLIC "${CMAKE_SOURCE_DIR}/src/include/GLFW/")
 target_link_directories(VKRendererProto PUBLIC "${CMAKE_SOURCE_DIR}/src/include/GLFW/lib")

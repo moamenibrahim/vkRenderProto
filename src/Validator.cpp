@@ -1,43 +1,51 @@
 #include "Validator.h"
 
-namespace Validator {
-	bool checkValidationLayerSupport(const std::vector<char*>& validationLayers) {
+namespace Validator
+{
+	bool checkValidationLayerSupport(const std::vector<char *> &validationLayers)
+	{
 		uint32_t layerCount;
 		vkEnumerateInstanceLayerProperties(&layerCount, nullptr);
 
 		std::vector<VkLayerProperties> availableLayers(layerCount);
 		vkEnumerateInstanceLayerProperties(&layerCount,
-			availableLayers.data());
+										   availableLayers.data());
 
-		for (const char* layerName : validationLayers) {
+		for (const char *layerName : validationLayers)
+		{
 			bool layerFound = false;
-			for (const auto& layerProperties : availableLayers) {
-				if (strcmp(layerName, layerProperties.layerName) == 0) {
+			for (const auto &layerProperties : availableLayers)
+			{
+				if (strcmp(layerName, layerProperties.layerName) == 0)
+				{
 					layerFound = true;
 					break;
 				}
 			}
-			if (!layerFound) {
+			if (!layerFound)
+			{
 				return false;
 			}
 		}
 		return true;
 	}
 
-	void handleCreateInstanceFailure(const VkResult result) {
-		std::cout << "Error on creating instance: " <<
-			string_VkResult(result) << std::endl;
+	void handleCreateInstanceFailure(const VkResult result)
+	{
+		std::cout << "Error on creating instance: " << string_VkResult(result) << std::endl;
 	}
 
-	std::vector<const char*> getRequiredExtensions() {
+	std::vector<const char *> getRequiredExtensions()
+	{
 		uint32_t glfwExtensionCount = 0;
-		const char** glfwExtensions;
+		const char **glfwExtensions;
 		glfwExtensions =
 			glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
-		std::vector<const char*> extensions(glfwExtensions,
-			glfwExtensions + glfwExtensionCount);
+		std::vector<const char *> extensions(glfwExtensions,
+											 glfwExtensions + glfwExtensionCount);
 
-		if (enableValidationLayers) {
+		if (enableValidationLayers)
+		{
 			extensions.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
 		}
 		return extensions;

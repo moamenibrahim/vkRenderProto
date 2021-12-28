@@ -2,16 +2,18 @@
 #include <vector>
 #include "HelloTriangle.cpp"
 
-int main(int argc, char* argv[])
+int main(int argc, char *argv[])
 {
     HelloTriangleApplication app;
-    try {
+    try
+    {
         app.run();
     }
-    catch (const std::exception& e) {
+    catch (const std::exception &e)
+    {
         std::cerr << e.what() << std::endl;
         return EXIT_FAILURE;
     }
-    
+
     return EXIT_SUCCESS;
 }
