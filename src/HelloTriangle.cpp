@@ -1,6 +1,5 @@
 #include "HelloTriangle.h"
  
-
 class HelloTriangleApplication 
 {
 public:

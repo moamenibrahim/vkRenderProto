@@ -1,8 +1,7 @@
 #pragma once
-#include "../include/glm/glm.hpp"
+#include "include/glm/glm.hpp"
 #include <vector>
-#include "model.h"
-
+#include "model/model.h"
 
 class Instance 
 {
