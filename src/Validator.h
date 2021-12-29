@@ -2,6 +2,7 @@
 #include <vector>
 #include <iostream>
 #include <vulkan.h>
+#include <cstring>
 
 #include "include/GLFW/glfw3.h"
 #include "vk_enum_string_helper.h"
