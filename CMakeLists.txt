@@ -13,7 +13,7 @@ target_link_directories(VKRendererProto PUBLIC "${CMAKE_SOURCE_DIR}/src/include/
 target_link_libraries(VKRendererProto glfw3)
 target_include_directories(VKRendererProto PUBLIC "${CMAKE_SOURCE_DIR}/src/include/vulkan/")
 if(UNIX)
-    target_link_directories(VKRendererProto PUBLIC "~/vulkan/1.2.189.2/x86_64/lib/")
+    target_link_directories(VKRendererProto PUBLIC "~/vulkan/1.2.198.1/x86_64/lib/")
 else()
     target_link_directories(VKRendererProto PUBLIC "C:/VulkanSDK/1.2.189.2/Lib/")
 endif(UNIX)
