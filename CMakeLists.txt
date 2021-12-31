@@ -6,9 +6,11 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 #set(SPDLOG_DIR "${CMAKE_SOURCE_DIR}/include/spdlog/")
 #target_include_directories(VKRendererProto PUBLIC ${SPDLOG_DIR})
-add_executable(VKRendererProto src/main.cpp "src/Engine.cpp" "src/Utils.cpp" "src/Validator.cpp" "src/HelloTriangle.cpp")
+add_executable(VKRendererProto src/main.cpp "src/Engine.cpp" "src/Utils.cpp" "src/Validator.cpp" "src/HelloTriangle.cpp" "src/model/mesh.cpp" "src/model/model.cpp" "src/model/mesh_manager.cpp" "src/model/model_manager.cpp")
 
 target_include_directories(VKRendererProto PUBLIC "${CMAKE_SOURCE_DIR}/src/include/GLFW/")
+target_include_directories(VKRendererProto PUBLIC "${CMAKE_SOURCE_DIR}/src/include/glm/")
+
 target_link_directories(VKRendererProto PUBLIC "${CMAKE_SOURCE_DIR}/include/GLFW/lib")
 target_link_libraries(VKRendererProto glfw3)
 target_include_directories(VKRendererProto PUBLIC "${CMAKE_SOURCE_DIR}/src/include/vulkan/")
