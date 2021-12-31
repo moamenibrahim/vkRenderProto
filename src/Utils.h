@@ -3,6 +3,10 @@
 #include <iostream>
 #include <vulkan.h>
 #include <optional>
+#include <set>
+#include <cstdint>
+#include <algorithm>
+
 #include "EngineCommon.h"
 
 namespace Utils
@@ -49,9 +53,9 @@ namespace Utils
 
 	int rateDeviceSuitability(const VkPhysicalDevice &device);
 
-	QueueFamilyIndices findQueueFamilies(const VkPhysicalDevice &device, VkSurfaceKHR surface);
+	QueueFamilyIndices findQueueFamilies(const VkPhysicalDevice &device, const VkSurfaceKHR &surface);
 
-	bool checkDeviceExtensionSupport(VkPhysicalDevice device);
+	bool checkDeviceExtensionSupport(const VkPhysicalDevice &device);
 
 	VkExtent2D chooseSwapExtent(const VkSurfaceCapabilitiesKHR &
 									capabilities,
@@ -59,7 +63,7 @@ namespace Utils
 
 	VkPresentModeKHR chooseSwapPresentMode(const std::vector<VkPresentModeKHR> &availablePresentModes);
 
-	SwapChainSupportDetails querySwapChainSupport(VkPhysicalDevice device, VkSurfaceKHR surface);
+	SwapChainSupportDetails querySwapChainSupport(const VkPhysicalDevice &device,const VkSurfaceKHR &surface);
 
 	VkSurfaceFormatKHR chooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR> &availableFormats);
 };

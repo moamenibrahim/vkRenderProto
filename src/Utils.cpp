@@ -1,6 +1,5 @@
 #include "Utils.h"
-#include <set>
-#include <cstdint>
+
 
 namespace Utils
 {
@@ -114,7 +113,7 @@ namespace Utils
 		return score;
 	}
 
-	QueueFamilyIndices findQueueFamilies(const VkPhysicalDevice &device, VkSurfaceKHR surface)
+	QueueFamilyIndices findQueueFamilies(const VkPhysicalDevice &device, const VkSurfaceKHR &surface)
 	{
 		QueueFamilyIndices indices;
 		// Logic to find queue family indices to populate struct with
@@ -151,7 +150,7 @@ namespace Utils
 		return indices;
 	}
 
-	bool checkDeviceExtensionSupport(VkPhysicalDevice device)
+	bool checkDeviceExtensionSupport(const VkPhysicalDevice &device)
 	{
 		uint32_t extensionCount;
 		vkEnumerateDeviceExtensionProperties(device, nullptr,
@@ -201,7 +200,7 @@ namespace Utils
 		return VK_PRESENT_MODE_FIFO_KHR;
 	}
 
-	SwapChainSupportDetails querySwapChainSupport(VkPhysicalDevice device, VkSurfaceKHR surface)
+	SwapChainSupportDetails querySwapChainSupport(const VkPhysicalDevice &device, const VkSurfaceKHR &surface)
 	{
 		SwapChainSupportDetails details;
 		vkGetPhysicalDeviceSurfaceCapabilitiesKHR(device, surface,
