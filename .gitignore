@@ -66,3 +66,10 @@ VKRendererProto.sln*
 VKRendererProto.vcxproj*
 ZERO_CHECK.vcxproj*
 .editorconfig
+
+vulkan/
+RUN_TESTS.vcxproj
+RUN_TESTS.vcxproj.filters
+
+# SPIR-V shaders binary files
+*.spv
