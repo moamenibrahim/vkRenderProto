@@ -1,5 +1,4 @@
 #pragma once
-
 #include <vulkan.h>
 #include <iostream>
 #include <stdexcept>
