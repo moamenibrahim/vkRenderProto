@@ -39,6 +39,9 @@ private:
     VkInstance instance;
     VkResult result;
     VkDebugUtilsMessengerEXT debugMessenger;
+    VkShaderModule vertShaderModule;
+    VkShaderModule fragShaderModule;
+
 
     void initWindow()
     {
@@ -303,7 +306,25 @@ private:
 
     void createGraphicsPipeline()
     {
+        auto vertShaderCode = readFile("src/shaders/vert.spv");
+        auto fragShaderCode = readFile("src/shaders/frag.spv");
 
+        vertShaderModule = createShaderModule(device, vertShaderCode);
+        fragShaderModule = createShaderModule(device, fragShaderCode);
+
+        VkPipelineShaderStageCreateInfo vertShaderStageInfo{};
+        vertShaderStageInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
+        vertShaderStageInfo.stage = VK_SHADER_STAGE_VERTEX_BIT;
+        vertShaderStageInfo.module = vertShaderModule;
+        vertShaderStageInfo.pName = "main";
+
+        VkPipelineShaderStageCreateInfo fragShaderStageInfo{};
+        fragShaderStageInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
+        fragShaderStageInfo.stage = VK_SHADER_STAGE_FRAGMENT_BIT;
+        fragShaderStageInfo.module = fragShaderModule;
+        fragShaderStageInfo.pName = "main";
+
+        VkPipelineShaderStageCreateInfo shaderStages[] = { vertShaderStageInfo, fragShaderStageInfo };
     }
 
     void mainLoop()
@@ -334,5 +355,8 @@ private:
         vkDestroyInstance(instance, nullptr);
         glfwDestroyWindow(window);
         glfwTerminate();
+
+        vkDestroyShaderModule(device, fragShaderModule, nullptr);
+        vkDestroyShaderModule(device, vertShaderModule, nullptr);
     }
 };

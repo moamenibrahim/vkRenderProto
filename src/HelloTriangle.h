@@ -17,3 +17,4 @@
 #include "EngineCommon.h"
 //#include "include/spdlog/spdlog.h"
 #include <algorithm>
+#include "ShaderLoader.cpp"
