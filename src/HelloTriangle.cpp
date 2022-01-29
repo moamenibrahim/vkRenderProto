@@ -665,7 +665,7 @@ private:
         vkDestroyPipeline(device, graphicsPipeline, nullptr);
         vkDestroyPipelineLayout(device, pipelineLayout, nullptr);
 
-        for (auto imageView : swapChainImageViews)
+        for (auto& imageView : swapChainImageViews)
         {
             vkDestroyImageView(device, imageView, nullptr);
         }
